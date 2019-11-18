@@ -3,6 +3,36 @@ class EpicenterController < ApplicationController
       @tag = Tag.find(params[:id])
   end
 
+  def following
+    @user = User.find(params[:id])
+    @users = []
+
+    User.all.each do |user|
+      if @user.following.include?(user.id)
+        @users.push(user)
+      end
+    end
+  end
+
+  def followers
+    @user =  User.find(params[:id])
+    @users = []
+
+    User.all.each do |user|
+      if user.following.include?(@user.id)
+        @users.push(user)
+      end
+    end
+  end
+  def all_users
+    @users = User.all
+    # or:
+    # User.order(:username)
+    # User.order(:name)
+    # or whatever order you'd
+    # like to put them in
+  end
+
   def feed
     @following_tweets = []
 
